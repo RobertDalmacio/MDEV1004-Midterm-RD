@@ -1,0 +1,106 @@
+<!--
+  File: index.html
+  Student: Robert Dalmacio
+  Student ID: 200606074
+  Date: 2025-10-19
+
+  Front-end interface for the Facebook Favorites REST API.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Facebook Favorites REST API</title>
+  <!-- Link to external stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Main wrapper for the page content -->
+  <div class="wrapper">
+    <h1>Facebook Favorite Posts Dashboard</h1>
+    
+    <!-- Container for buttons and input fields -->
+    <div class="container">
+      <!-- Section for general actions -->
+      <div class="section">
+        <button onclick="getAllPosts()">Get All Posts</button>
+        <button onclick="getUsers()">Get All Users</button>
+        <button onclick="getPostsByLocation()">Group Posts by Location</button>
+      </div>
+      
+      <!-- Section for fetching post details -->
+      <div class="section">
+        <input id="postId" placeholder="Enter Post ID" />
+        <button onclick="getPostDetails()">Get Post Details</button>
+      </div>
+      
+      <!-- Section for fetching user profile -->
+      <div class="section">
+        <input id="userName" placeholder="Enter User Name" />
+        <button onclick="getUserDetails()">Get User Profile</button>
+      </div>
+    </div>
+    
+    <!-- Area to display API results -->
+    <pre id="result">Results will appear here...</pre>
+  </div>
+
+  <!-- JavaScript for handling API requests -->
+  <script>
+    /**
+     * Fetch data from the given API endpoint and display it in the result area.
+     * @param {string} endpoint - The API endpoint to fetch data from.
+     */
+    async function fetchAndDisplay(endpoint) {
+      const result = document.getElementById('result');
+      result.textContent = 'Loading...';
+
+      try {
+        const response = await fetch(endpoint);
+        const data = await response.json();
+        result.textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        result.textContent = 'Error: Unable to fetch data from the server.';
+      }
+    }
+
+    // Fetch all posts from the API
+    function getAllPosts() {
+      fetchAndDisplay('/api/posts');
+    }
+
+    // Fetch all users from the API
+    function getUsers() {
+      fetchAndDisplay('/api/users');
+    }
+
+    // Fetch posts grouped by location from the API
+    function getPostsByLocation() {
+      fetchAndDisplay('/api/posts-by-location');
+    }
+
+    // Fetch details of a specific post based on the entered Post ID
+    function getPostDetails() {
+      const postId = document.getElementById('postId').value.trim();
+      if (postId) {
+        fetchAndDisplay(`/api/post/${postId}`);
+      } else {
+        document.getElementById('result').textContent = 'Please enter a valid Post ID.';
+      }
+    }
+
+    // Fetch details of a specific user based on the entered User Name
+    function getUserDetails() {
+      const userName = document.getElementById('userName').value.trim();
+      if (userName) {
+        fetchAndDisplay(`/api/user/${userName}`);
+      } else {
+        document.getElementById('result').textContent = 'Please enter a valid User Name.';
+      }
+    }
+  </script>
+</body>
+</html>
+
+
