@@ -1,4 +1,4 @@
-# Facebook Favorites REST API
+# Facebook Favourites REST API
 
 This is a RESTful API for interacting with a dataset of Facebook posts and user profiles. The API allows users to fetch posts, user profiles, and group posts by location. It is built using Node.js and Express.
 
